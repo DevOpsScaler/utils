@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.0.1 (2025-09-02)
+
+### Bug Fixes
+
+- Solving the peotry to uv
+  ([`fdf5be1`](https://github.com/DevOpsScaler/utils/commit/fdf5be1ca2fc538d75b94967ad026a315c0029f6))
+
+
 ## v1.0.0 (2025-09-02)
 
 ### Bug Fixes

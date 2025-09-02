@@ -70,6 +70,6 @@ jobs:
 
       - name: Commit the new version
         run: |
-          git add pyproject.toml
-          git commit -m "chore(release): $VERSION"
-          git push
+            git add pyproject.toml uv.lock
+            git commit -m "chore(release): $VERSION"
+            git push

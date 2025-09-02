@@ -36,7 +36,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install
+          uv sync
 
       - name: Set git user for semantic release
         run: |

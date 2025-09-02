@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v1.0.2 (2025-09-02)
+
+### Bug Fixes
+
+- Solving the peotry to uv
+  ([`90dae9e`](https://github.com/DevOpsScaler/utils/commit/90dae9ec718a23aabb8f7631b23fe3a97bc739fd))
+
+### Chores
+
+- **release**: 1.0.1
+  ([`b9085f2`](https://github.com/DevOpsScaler/utils/commit/b9085f2af0a5442601ddaf97b29faf592537b589))
+
+
 ## v1.0.1 (2025-09-02)
 
 ### Bug Fixes

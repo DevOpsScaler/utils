@@ -1,0 +1,73 @@
+name: Run Tests on PR
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: write
+  checks: write
+  issues: write
+  pull-requests: write
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+      - name: Install Poetry
+        run: |
+          pip install poetry
+
+      - name: Install dependencies
+        run: |
+          poetry install
+      - name: Set git user for semantic release
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Run Semantic Release (Version)
+        id: version_step
+        run: |
+          export GH_TOKEN=${{ secrets.GH_TOKEN }}
+          poetry run semantic-release --verbose version  | tee version_output.txt
+
+      - name: Run Semantic Release (Publish)
+        id: publish_step
+        run: |
+          export GH_TOKEN=${{ secrets.GH_TOKEN }}
+          poetry run semantic-release publish
+
+      - name: Get the new version
+        run: |
+          VERSION=$(head -n 1 version_output.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+          echo "New version is $VERSION"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: update toml file with new version
+        run: |
+          echo "New version is $VERSION"
+          sed -i "s/^version = .*/version = \"${VERSION}\"/" pyproject.toml
+        env:
+          VERSION: ${{ env.VERSION }}
+
+      - name: Commit the new version
+        run: |
+          git add pyproject.toml
+          git commit -m "chore(release): $VERSION"
+          git push

@@ -4,4 +4,19 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "python-semantic-release>=10.3.1",
+]
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+branch = "main"
+commit_message = "chore(release): bump version to {version}"
+changelog_file = "CHANGELOG.md"
+build_command = "uv build"
+upload_to_pypi = false
+upload_to_release = true
+
+[tool.semantic_release.commit_parser_options]
+patch_tags = ["fix", "chore", "style", "refactor"]
+allowed_tags = ["infra", "deploy", "feat", "fix", "chore", "style", "refactor", "docs", "test", "ci", "perf", "build"]

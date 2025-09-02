@@ -29,13 +29,15 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.13'
-      - name: Install Poetry
+
+      - name: Install uv
         run: |
-          pip install poetry
+          pip install uv
 
       - name: Install dependencies
         run: |
-          poetry install
+          uv install
+
       - name: Set git user for semantic release
         run: |
           git config --global user.name "github-actions[bot]"
@@ -45,13 +47,13 @@ jobs:
         id: version_step
         run: |
           export GH_TOKEN=${{ secrets.GH_TOKEN }}
-          poetry run semantic-release --verbose version  | tee version_output.txt
+          uv run semantic-release --verbose version  | tee version_output.txt
 
       - name: Run Semantic Release (Publish)
         id: publish_step
         run: |
           export GH_TOKEN=${{ secrets.GH_TOKEN }}
-          poetry run semantic-release publish
+          uv run semantic-release publish
 
       - name: Get the new version
         run: |
